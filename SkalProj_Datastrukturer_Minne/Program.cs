@@ -147,11 +147,53 @@ namespace SkalProj_Datastrukturer_Minne
         /// </summary>
         static void ExamineQueue()
         {
-            /*
-             * Loop this method untill the user inputs something to exit to main menue.
-             * Create a switch with cases to enqueue items or dequeue items
-             * Make sure to look at the queue after Enqueueing and Dequeueing to see how it behaves
-            */
+            Queue<string> queue = new Queue<string>();
+            bool loop = true;
+            while (loop)
+            {
+                Console.WriteLine("\n+ <String> to add <String> to the list"
+                    + "\n- <String> to subtract <String> from the list"
+                + "\n0 To Exit.");
+
+                string input = "";
+                char firstLetter = '0';
+
+                input = Console.ReadLine().ToString();
+                if (input.Length > 0)
+                {
+                    firstLetter = input![0];
+                    // Remove the first character from the string
+                    input = input[1..];
+                }
+                switch (firstLetter)
+                {
+                    case '+':
+                        queue.Enqueue(input);
+                        break;
+                    case '-':
+                        queue.Dequeue();
+                        break;
+                    case '0':
+                        loop = false;
+                        break;
+                    default:
+                        Console.WriteLine("Please start your string input with + or -.");
+                        break;
+                }
+                
+                Console.WriteLine("Current Queue Count: " + queue.Count());
+                Console.Write("Current Queue: ");
+                foreach (string strings in queue)
+                {
+                    Console.Write(strings + ", ");
+                }
+                Console.WriteLine("\n------------------------------");
+                /*
+                * Loop this method untill the user inputs something to exit to main menue.
+                * Create a switch with cases to enqueue items or dequeue items
+                * Make sure to look at the queue after Enqueueing and Dequeueing to see how it behaves
+                */
+            }
         }
 
         /// <summary>
