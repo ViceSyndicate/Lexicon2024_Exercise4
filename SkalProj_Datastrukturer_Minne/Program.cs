@@ -1,5 +1,5 @@
 ﻿using System;
-using static System.Runtime.InteropServices.JavaScript.JSType;
+using System.Text;
 
 namespace SkalProj_Datastrukturer_Minne
 {
@@ -302,15 +302,20 @@ namespace SkalProj_Datastrukturer_Minne
              * Example of correct: (()), {}, [({})],  List<int> list = new List<int>() { 1, 2, 3, 4 };
              * Example of incorrect: (()]), [), {[()}],  List<int> list = new List<int>() { 1, 2, 3, 4 );
              */
+
             bool loop = true;
             while (loop)
             {
+
                 Console.WriteLine("\n0 To Exit.");
+                Console.Write("Enter a string: ");
 
                 string input = "";
-                char firstLetter = '0';
 
                 input = Console.ReadLine().ToString();
+
+                Queue<char> symbolQue = new Queue<char>();
+                Stack<char> symbolStack = new Stack<char>();
 
                 switch (input)
                 {
@@ -318,8 +323,72 @@ namespace SkalProj_Datastrukturer_Minne
                         loop = false;
                         break;
                     default:
+                        for (int i = 0; i < input.Length; i++)
+                        {
+                            switch (input[i])
+                            {
+                                case '(': symbolQue.Enqueue('('); symbolStack.Push('('); break;
+                                case ')': symbolQue.Enqueue(')'); symbolStack.Push(')'); break;
+                                case '{': symbolQue.Enqueue('{'); symbolStack.Push('{'); break;
+                                case '}': symbolQue.Enqueue('}'); symbolStack.Push('}'); break;
+                                case '[': symbolQue.Enqueue('['); symbolStack.Push('['); break;
+                                case ']': symbolQue.Enqueue(']'); symbolStack.Push(']'); break;
+                            }
+                        }
+                        // Now we have a Stack and a Queue of the symbols in the string. 
                         break;
                 }
+                Console.WriteLine();
+
+                char parenthesis = ')';
+                char curlybracket = '}';
+                char squarebracket = ']';
+
+                // If the Deque grabs '(' the next acceptable values are (, {, [ or )
+                // If the Deque grabs '{' the next acceptable values are (, {, [ or }
+                // If the Deque grabs '[' the next acceptable values are (, {, [ or ]
+                bool goodFormatFlag = true;
+                char previousSymbol = symbolQue.Dequeue();
+                for (int i = 0; i < symbolQue.Count();)
+                {
+                    // prints the same thing you put in
+
+                    char currentSymbol = symbolQue.Dequeue();
+                    if (previousSymbol == '(' && currentSymbol == '(' || currentSymbol == '{' || currentSymbol == '[' || currentSymbol != ')')
+                    {
+                        goodFormatFlag = true;
+                    }
+                    else if (previousSymbol == '{' && currentSymbol == '(' || currentSymbol == '{' || currentSymbol == '[' || currentSymbol != '}')
+                    {
+                        goodFormatFlag = true;
+                    }
+                    else if (previousSymbol == '[' && currentSymbol == '(' || currentSymbol == '{' || currentSymbol == '[' || currentSymbol != ']')
+                    {
+                        goodFormatFlag = true;
+                    }
+                    else
+                    {
+                        goodFormatFlag = false;
+                    }
+                    previousSymbol = currentSymbol;
+                    //Console.Write(currentSymbol + " > ");
+                }
+                if (goodFormatFlag)
+                {
+                    Console.WriteLine("Good Format!");
+                } else
+                {
+                    Console.WriteLine("Bad Format!");
+                }
+
+                Console.WriteLine("--------------");
+                /*
+                for (int i = 0; i < symbolStack.Count();)
+                {
+                    // prints out the last symbol thing you put in 
+                    Console.Write(symbolStack.Pop() + " > ");
+                }
+                */
             }
         }
     }
