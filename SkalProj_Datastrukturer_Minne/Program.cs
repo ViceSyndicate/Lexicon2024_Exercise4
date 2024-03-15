@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net;
 using System.Text;
 
 namespace SkalProj_Datastrukturer_Minne
@@ -315,31 +316,44 @@ namespace SkalProj_Datastrukturer_Minne
                 input = Console.ReadLine().ToString();
 
                 Queue<char> symbolQue = new Queue<char>();
-                Stack<char> symbolStack = new Stack<char>();
-
+                Stack<char> symbolStack = new Stack<char>(); ;
                 switch (input)
                 {
                     case "0":
                         loop = false;
                         break;
                     default:
+                        bool formatFlag = true;
                         for (int i = 0; i < input.Length; i++)
                         {
+                            // For each character in the input string 
                             switch (input[i])
                             {
-                                case '(': symbolQue.Enqueue('('); symbolStack.Push('('); break;
-                                case ')': symbolQue.Enqueue(')'); symbolStack.Push(')'); break;
-                                case '{': symbolQue.Enqueue('{'); symbolStack.Push('{'); break;
-                                case '}': symbolQue.Enqueue('}'); symbolStack.Push('}'); break;
-                                case '[': symbolQue.Enqueue('['); symbolStack.Push('['); break;
-                                case ']': symbolQue.Enqueue(']'); symbolStack.Push(']'); break;
+                                // If the current character is ')'
+                                case ')':
+                                    // AND IF the previous symbol was not '(' OR
+                                    // If we don't have anything left in the symbolStack
+                                    if (symbolStack.Count == 0 || symbolStack.Pop() != '(') formatFlag = false;
+                                    break;
+                                case '}':
+                                    if (symbolStack.Count == 0 || symbolStack.Pop() != '{') formatFlag = false;
+                                    break;
+                                case ']':
+                                    if (symbolStack.Count == 0 || symbolStack.Pop() != '[') formatFlag = false;
+                                    break;
+                                // if the current character is an opening bracket symbol, push it to the stack. 
+                                case '(': symbolStack.Push(input[i]); break;
+                                case '{': symbolStack.Push(input[i]); break;
+                                case '[': symbolStack.Push(input[i]); break;
                             }
                         }
-                        // Now we have a Stack and a Queue of the symbols in the string. 
+                        // After the loop and the symbol stack is empty and the format flag is still true/good
+                        if (symbolStack.Count == 0 && formatFlag) Console.WriteLine("Good Format!");
+                        else Console.WriteLine("Bad Format!");
                         break;
                 }
-                Console.WriteLine();
-
+                // Previous nightmare attempts before googling it. 
+                /*
                 char parenthesis = ')';
                 char curlybracket = '}';
                 char squarebracket = ']';
@@ -347,6 +361,10 @@ namespace SkalProj_Datastrukturer_Minne
                 // If the Deque grabs '(' the next acceptable values are (, {, [ or )
                 // If the Deque grabs '{' the next acceptable values are (, {, [ or }
                 // If the Deque grabs '[' the next acceptable values are (, {, [ or ]
+
+                // • ), }, ] får enbart förekomma efter respektive (, {, [
+                //• Varje parentes som öppnas måste stängas dvs ”(” följs av ”)”
+
                 bool goodFormatFlag = true;
                 char previousSymbol = symbolQue.Dequeue();
                 for (int i = 0; i < symbolQue.Count();)
@@ -376,7 +394,8 @@ namespace SkalProj_Datastrukturer_Minne
                 if (goodFormatFlag)
                 {
                     Console.WriteLine("Good Format!");
-                } else
+                }
+                else
                 {
                     Console.WriteLine("Bad Format!");
                 }
