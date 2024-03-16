@@ -33,3 +33,12 @@ Sedan sätts x.MyValue vilket är en property till 3
 MyInt y skapas och sätts till x men MyInt får inte en egen plats I minnet 
 för att spara värdet I utan istället bara pekar på samma plats I minnet som x är på
 Därav när y ändras till 4 så ändras också x.
+
+
+
+Övning 5: Rekursion
+1. Min förståelse är att RecursiveOdd(int n) funktionen kommer att anropa sig själv
+och minska n med 1 varje gång tills n är 1.
+
+När n = 1 så kommer funktionen börja returnera tillbaka n-1+2 n antal gånger 
+tills slutligen orginal anropet får summan av alla värden. 

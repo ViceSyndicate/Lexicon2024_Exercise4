@@ -49,6 +49,8 @@ namespace SkalProj_Datastrukturer_Minne
                     case '5':
                         //ToDo: Recursive Exercise
                         RecursiveExercise recursiveExercise = new RecursiveExercise();
+                        int outputOfRecursiveOdd = recursiveExercise.RecursiveOdd(5);
+                        Console.WriteLine("Finally : " + outputOfRecursiveOdd);
                         break;
                     case '6':
                         //ToDo: Iterative Exercise
