@@ -1,0 +1,35 @@
+Frågor:
+1. Hur fungerar stacken och heapen? Förklara gärna med exempel eller skiss på dess
+grundläggande funktion
+
+Stacken är en minnesstruktur som processorn använder sig av och kan liknas en 
+massa lådor staplade på varandra. Den håller själv koll på vilka metoder och anrop som körs 
+så vi behöver inte oroa oss över minneshantering där. 
+
+Heapen är en annan minnesstruktur som liknar ett träd mer. (Kanske liknande binära träd?)
+Den hanterar inte "Garbage Collection" av sig själv utan det behöver vi ha I åtanke med vår kod.
+
+2. Vad är Value Types respektive Reference Types och vad skiljer dem åt?
+
+Value Types är typer ifrån biblioteket System.ValueType och är våra standard
+datatyper som bool, int, char etc. Men INTE string!
+Dessa kan lagras på både Stacken och Heapen.
+
+Reference Types är ifrån System.Object och är våra 
+klasser, objekt, interfaces samt strings.
+Dessa lagras alltid på Heapen.
+
+
+
+3. Följande metoder (se bild nedan) genererar olika svar. Den första returnerar 3, den
+andra returnerar 4, varför?
+
+Om jag förstår det rätt så Skapar vi i ReturnValue() 2 st olika integers, x och y 
+Detta är 2 olika värden i minnet och intregrerar inte med varandra då y = x; 
+I detta fallet bara sätter y till samma värde som x.
+
+Medans I ReturnValue2 så skapas MyInt x , 
+Sedan sätts x.MyValue vilket är en property till 3
+MyInt y skapas och sätts till x men MyInt får inte en egen plats I minnet 
+för att spara värdet I utan istället bara pekar på samma plats I minnet som x är på
+Därav när y ändras till 4 så ändras också x.
